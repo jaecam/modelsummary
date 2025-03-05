@@ -104,7 +104,7 @@ modelsummary_rbind <- function(
                 fmt = fmt,
                 estimate = estimate,
                 statistic = statistic,
-                vcov = vcov,
+                vcov = if(isTRUE(checkmate::check_list(vcov))) vcov[[i]] else vcov,
                 conf_level = conf_level,
                 exponentiate = exponentiate,
                 stars = stars,
