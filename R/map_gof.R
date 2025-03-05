@@ -19,9 +19,16 @@ map_gof <- function(gof, gof_omit, gof_map) {
 
 
   # map
-  gm_raw <- sapply(gof_map, function(x) x$raw)
-  gm_clean <- sapply(gof_map, function(x) x$clean)
-  gm_omit <- try(sapply(gof_map, function(x) x$omit), silent = TRUE)
+  gm_raw <- sapply(gof_map, function(x) x["raw"])
+  gm_clean <- sapply(gof_map, function(x) x["clean"])
+  gm_omit <- try(sapply(gof_map, function(x) x["omit"]), silent = TRUE)
+
+  if (is.list(gm_omit)) {
+    gm_omit <- gm_omit |> as.character() |> as.logical()
+    if (any(is.na(gm_omit))) {
+      stop("Invalid `omit` element type")
+    }
+  }
 
   if (is.logical(gm_omit)) {
     if (isTRUE(attr(gof_map, "whitelist"))) {

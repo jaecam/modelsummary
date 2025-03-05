@@ -19,8 +19,8 @@ format_gof <- function(gof, fmt, gof_map, ...) {
 
 
   # `as.character` is needed for R-devel changes to `intersect` with empty sets
-  gm_raw <- as.character(sapply(gof_map, function(x) x$raw))
-  gm_clean <- as.character(sapply(gof_map, function(x) x$clean))
+  gm_raw <- as.character(sapply(gof_map, function(x) x["raw"]))
+  gm_clean <- as.character(sapply(gof_map, function(x) x["clean"]))
 
   # formating arguments priority: `fmt` > `gof_map` > 3
   if (inherits(fmt, "fmt_statistic")) {
@@ -28,13 +28,15 @@ format_gof <- function(gof, fmt, gof_map, ...) {
   }
 
   for (g in gof_map) {
-    if (is.numeric(gof[[g$raw]])) {
-      if (g$raw %in% colnames(gof)) {
-        fun <- sanitize_fmt(g$fmt)
-        gof[[g$raw]] <- fun(gof[[g$raw]])
+    raw <- as.character(g["raw"])
+
+    if (is.numeric(gof[[raw]])) {
+      if (g["raw"] %in% colnames(gof)) {
+        fun <- sanitize_fmt(g["fmt"])
+        gof[[raw]] <- fun(gof[[raw]])
       } else {
         fun <- sanitize_fmt(fmt)
-        gof[[g$raw]] <- fmt(gof[[g$raw]])
+        gof[[raw]] <- fmt(gof[[raw]])
       }
     }
   }

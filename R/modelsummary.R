@@ -940,14 +940,18 @@ get_list_of_modelsummary_lists <- function(models, conf_level, vcov, gof_map, go
 
 
 redundant_labels <- function(dat, column) {
+  save(dat, column, file = "test.RData")
+
   if (!column %in% colnames(dat)) {
     return(dat)
   }
   # Issue #558: 1-row estimates table with no gof
   if (nrow(dat) > 1) {
     for (i in nrow(dat):2) {
-      if (dat$part[i] == "estimates" &&
-        dat[[column]][i - 1] == dat[[column]][i]) {
+      if (dat$part[i] == "estimates" 
+        && !is.null(dat[[column]][i - 1]) 
+        && !is.null(dat[[column]][i]) 
+        && dat[[column]][i - 1] == dat[[column]][i]) {
         dat[[column]][i] <- ""
       }
     }
