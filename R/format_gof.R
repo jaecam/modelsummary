@@ -30,12 +30,12 @@ format_gof <- function(gof, fmt, gof_map, ...) {
   for (g in gof_map) {
     if (is.numeric(gof[[g$raw]]) || is.character(gof[[g$raw]])) {
       if (g$raw %in% colnames(gof)) {
-        print(paste0(g$raw, ": ", gof[[g$raw]]), " -> branch 1")
+        print(paste0(g$raw, ": ", gof[[g$raw]], " -> branch 1"))
 
         fun <- sanitize_fmt(g$fmt)
         gof[[g$raw]] <- fun(gof[[g$raw]])
       } else {
-        print(paste0(g$raw, ": ", gof[[g$raw]]), " -> branch 2")
+        print(paste0(g$raw, ": ", gof[[g$raw]], " -> branch 2"))
 
         fun <- sanitize_fmt(fmt)
         gof[[g$raw]] <- fmt(gof[[g$raw]])
