@@ -8,7 +8,7 @@ fmt_identity <- function(...) {
 #' Rounding with a user-supplied function in the `fmt` argument
 #' 
 #' @noRd
-#' @param fun A function which accepts a numeric vector and returns a numeric vector of the same length.
+#' @param fun A function which accepts a numeric/character vector and returns a character vector (possibly of the same length).
 fmt_function <- function(fun) {
     out <- function(x, ...) {
         if (isTRUE(checkmate::check_data_frame(x))) {
@@ -19,7 +19,7 @@ fmt_function <- function(fun) {
                     x[[n]] <- fmt_mathmode(x[[n]])
                 }
             }
-        } else if (isTRUE(checkmate::check_numeric(x))) {
+        } else if (isTRUE(checkmate::check_numeric(x)) || isTRUE(checkmate::check_character(x))) {
             x <- fun(x)
             x <- fmt_nainf(x)
             x <- fmt_mathmode(x)
