@@ -28,7 +28,9 @@ format_gof <- function(gof, fmt, gof_map, ...) {
   }
 
   for (g in gof_map) {
-    if (is.numeric(gof[[g$raw]])) {
+    print(gof[[g$raw]])
+    print(class(gof[[g$raw]]))
+    if (is.numeric(gof[[g$raw]]) || is.character(gof[[g$raw]])) {
       if (g$raw %in% colnames(gof)) {
         fun <- sanitize_fmt(g$fmt)
         gof[[g$raw]] <- fun(gof[[g$raw]])
